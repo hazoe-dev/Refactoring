@@ -44,7 +44,7 @@ public class RealEstateFinder {
         Iterator<RealEstate> estates = repository.iterator();
         while (estates.hasNext()) {
             RealEstate estate = estates.next();
-            if (estate.getPlacement().equals(placement))
+            if (checkPlacement(placement, estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
@@ -56,7 +56,7 @@ public class RealEstateFinder {
         Iterator<RealEstate> estates = repository.iterator();
         while (estates.hasNext()) {
             RealEstate estate = estates.next();
-            if (!estate.getPlacement().equals(placement))
+            if (!checkPlacement(placement, estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
@@ -80,7 +80,7 @@ public class RealEstateFinder {
         Iterator<RealEstate> estates = repository.iterator();
         while (estates.hasNext()) {
             RealEstate estate = estates.next();
-            if (estate.getType().equals(type))
+            if (checkType(type, estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
@@ -92,9 +92,17 @@ public class RealEstateFinder {
         Iterator<RealEstate> estates = repository.iterator();
         while (estates.hasNext()) {
             RealEstate estate = estates.next();
-            if (estate.getType().equals(type) && estate.getPlacement().equals(placement) && materialSpec.check(estate))
+            if (checkType(type, estate) && checkPlacement(placement, estate) && materialSpec.check(estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
+    }
+
+    private static boolean checkPlacement(EstatePlacement placement, RealEstate estate) {
+        return estate.getPlacement().equals(placement);
+    }
+
+    private static boolean checkType(EstateType type, RealEstate estate) {
+        return estate.getType().equals(type);
     }
 }
