@@ -75,24 +75,26 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byType(EstateType type) {
+        TypeSpec typeSpec = new TypeSpec();
         List<RealEstate> foundRealEstates = new ArrayList<>();
 
         Iterator<RealEstate> estates = repository.iterator();
         while (estates.hasNext()) {
             RealEstate estate = estates.next();
-            if (checkType(type, estate))
+            if (typeSpec.checkType(type, estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
     }
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material) {
+        TypeSpec typeSpec = new TypeSpec();
         List<RealEstate> foundRealEstates = new ArrayList<>();
         MaterialSpec materialSpec = new MaterialSpec(material);
         Iterator<RealEstate> estates = repository.iterator();
         while (estates.hasNext()) {
             RealEstate estate = estates.next();
-            if (checkType(type, estate) && checkPlacement(placement, estate) && materialSpec.check(estate))
+            if (typeSpec.checkType(type, estate) && checkPlacement(placement, estate) && materialSpec.check(estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
@@ -102,7 +104,5 @@ public class RealEstateFinder {
         return estate.getPlacement().equals(placement);
     }
 
-    private static boolean checkType(EstateType type, RealEstate estate) {
-        return estate.getType().equals(type);
-    }
+
 }
