@@ -7,7 +7,7 @@ public class TypeSpec {
         this.type = type;
     }
 
-    boolean checkType(RealEstate estate) {
+    public boolean check(RealEstate estate) {
         return estate.getType().equals(type);
     }
 }

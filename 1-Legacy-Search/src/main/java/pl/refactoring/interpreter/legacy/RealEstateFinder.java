@@ -40,11 +40,9 @@ public class RealEstateFinder {
 
     public List<RealEstate> byPlacement(EstatePlacement placement) {
         List<RealEstate> foundRealEstates = new ArrayList<>();
-
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
-            if (checkPlacement(placement, estate))
+        PlacementSpec placementSpec = new PlacementSpec(placement);
+        for (RealEstate estate : repository) {
+            if (placementSpec.check(estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
@@ -52,11 +50,9 @@ public class RealEstateFinder {
 
     public List<RealEstate> byAvoidingPlacement(EstatePlacement placement) {
         List<RealEstate> foundRealEstates = new ArrayList<>();
-
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
-            if (!checkPlacement(placement, estate))
+        PlacementSpec placementSpec = new PlacementSpec(placement);
+        for (RealEstate estate : repository) {
+            if (!placementSpec.check(estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
@@ -65,9 +61,7 @@ public class RealEstateFinder {
     public List<RealEstate> byAreaRange(float minArea, float maxArea) {
         List<RealEstate> foundRealEstates = new ArrayList<>();
 
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
+        for (RealEstate estate : repository) {
             if (estate.getBuildingArea() >= minArea && estate.getBuildingArea() <= maxArea)
                 foundRealEstates.add(estate);
         }
@@ -79,7 +73,7 @@ public class RealEstateFinder {
         List<RealEstate> foundRealEstates = new ArrayList<>();
 
         for (RealEstate estate : repository) {
-            if (typeSpec.checkType(estate))
+            if (typeSpec.check(estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
@@ -87,19 +81,18 @@ public class RealEstateFinder {
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material) {
         TypeSpec typeSpec = new TypeSpec(type);
+        PlacementSpec placementSpec = new PlacementSpec(placement);
 
         List<RealEstate> foundRealEstates = new ArrayList<>();
         MaterialSpec materialSpec = new MaterialSpec(material);
         for (RealEstate estate : repository) {
-            if (typeSpec.checkType(estate) && checkPlacement(placement, estate) && materialSpec.check(estate))
+            if (typeSpec.check(estate) && placementSpec.check(estate) && materialSpec.check(estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
     }
 
-    private static boolean checkPlacement(EstatePlacement placement, RealEstate estate) {
-        return estate.getPlacement().equals(placement);
-    }
+
 
 
 }
