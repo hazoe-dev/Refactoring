@@ -78,9 +78,7 @@ public class RealEstateFinder {
         TypeSpec typeSpec = new TypeSpec(type);
         List<RealEstate> foundRealEstates = new ArrayList<>();
 
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
+        for (RealEstate estate : repository) {
             if (typeSpec.checkType(estate))
                 foundRealEstates.add(estate);
         }
@@ -92,9 +90,7 @@ public class RealEstateFinder {
 
         List<RealEstate> foundRealEstates = new ArrayList<>();
         MaterialSpec materialSpec = new MaterialSpec(material);
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
+        for (RealEstate estate : repository) {
             if (typeSpec.checkType(estate) && checkPlacement(placement, estate) && materialSpec.check(estate))
                 foundRealEstates.add(estate);
         }
