@@ -40,7 +40,7 @@ public class RealEstateFinder {
 
     public List<RealEstate> byPlacement(EstatePlacement placement) {
         List<RealEstate> foundRealEstates = new ArrayList<>();
-        PlacementSpec placementSpec = new PlacementSpec(placement);
+        Spec placementSpec = new PlacementSpec(placement);
         for (RealEstate estate : repository) {
             if (placementSpec.check(estate))
                 foundRealEstates.add(estate);
@@ -50,7 +50,7 @@ public class RealEstateFinder {
 
     public List<RealEstate> byAvoidingPlacement(EstatePlacement placement) {
         List<RealEstate> foundRealEstates = new ArrayList<>();
-        PlacementSpec placementSpec = new PlacementSpec(placement);
+        Spec placementSpec = new PlacementSpec(placement);
         for (RealEstate estate : repository) {
             if (!placementSpec.check(estate))
                 foundRealEstates.add(estate);
@@ -69,7 +69,7 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byType(EstateType type) {
-        TypeSpec typeSpec = new TypeSpec(type);
+        Spec typeSpec = new TypeSpec(type);
         List<RealEstate> foundRealEstates = new ArrayList<>();
 
         for (RealEstate estate : repository) {
@@ -80,8 +80,8 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material) {
-        TypeSpec typeSpec = new TypeSpec(type);
-        PlacementSpec placementSpec = new PlacementSpec(placement);
+        Spec typeSpec = new TypeSpec(type);
+        Spec placementSpec = new PlacementSpec(placement);
 
         List<RealEstate> foundRealEstates = new ArrayList<>();
         MaterialSpec materialSpec = new MaterialSpec(material);

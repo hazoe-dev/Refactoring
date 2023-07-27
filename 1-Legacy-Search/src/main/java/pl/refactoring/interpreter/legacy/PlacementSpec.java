@@ -1,6 +1,6 @@
 package pl.refactoring.interpreter.legacy;
 
-public class PlacementSpec {
+public class PlacementSpec implements Spec{
     private EstatePlacement placement;
 
     public PlacementSpec(EstatePlacement placement) {

@@ -1,6 +1,6 @@
 package pl.refactoring.interpreter.legacy;
 
-public class TypeSpec {
+public class TypeSpec implements Spec{
     private EstateType type;
 
     public TypeSpec(EstateType type) {
