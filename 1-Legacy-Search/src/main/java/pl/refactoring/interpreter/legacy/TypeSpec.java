@@ -1,7 +1,13 @@
 package pl.refactoring.interpreter.legacy;
 
 public class TypeSpec {
-    static boolean checkType(EstateType type, RealEstate estate) {
+    private EstateType type;
+
+    public TypeSpec(EstateType type) {
+        this.type = type;
+    }
+
+    boolean checkType(RealEstate estate) {
         return estate.getType().equals(type);
     }
 }
