@@ -63,9 +63,7 @@ public class RealEstateFinder {
 
     public List<RealEstate> byType(EstateType type) {
         Spec typeSpec = new TypeSpec(type);
-        List<RealEstate> foundRealEstates = repository.stream().filter(typeSpec::check).collect(Collectors.toList());
-
-        return foundRealEstates;
+        return getRealEstatesBySpec(typeSpec);
     }
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material) {
