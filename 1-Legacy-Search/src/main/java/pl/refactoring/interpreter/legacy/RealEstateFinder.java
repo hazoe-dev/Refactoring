@@ -67,17 +67,9 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material) {
-        Spec typeSpec = new TypeSpec(type);
         Spec placementSpec = new PlacementSpec(placement, false);
-
-        List<RealEstate> foundRealEstates;
-        MaterialSpec materialSpec = new MaterialSpec(material);
-
-        foundRealEstates = repository.stream()
-                .filter(typeSpec::check).
-                filter(placementSpec::check).
-                filter(materialSpec::check).collect(Collectors.toList());
-        return foundRealEstates;
+        Spec combineSpec = new TypeSpec(new MaterialSpec(placementSpec, material),type);
+        return bySpec(combineSpec);
     }
 
 

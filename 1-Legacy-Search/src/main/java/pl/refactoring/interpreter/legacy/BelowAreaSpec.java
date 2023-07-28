@@ -21,6 +21,6 @@ public class BelowAreaSpec extends SpecDecorator  {
 
     @Override
     public boolean check(RealEstate estate) {
-        return estate.getBuildingArea() < maxBuildingArea;
+        return super.check(estate) && estate.getBuildingArea() < maxBuildingArea;
     }
 }

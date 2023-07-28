@@ -12,6 +12,6 @@ public class SpecDecorator implements Spec {
 
     @Override
     public boolean check(RealEstate estate) {
-        return wrappee.check(estate);
+        return wrappee.check(estate) ;
     }
 }

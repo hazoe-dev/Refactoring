@@ -14,6 +14,6 @@ public class MaterialSpec extends SpecDecorator {
     }
 
     public boolean check(RealEstate estate) {
-        return estate.getMaterial().equals(material);
+        return super.check(estate) && estate.getMaterial().equals(material);
     }
 }
