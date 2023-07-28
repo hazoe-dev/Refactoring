@@ -1,7 +1,6 @@
 package pl.refactoring.interpreter.legacy;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,23 +38,17 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byPlacement(EstatePlacement placement) {
-        Spec placementSpec = new PlacementSpec(placement);
-        return getRealEstates(placementSpec, false);
+        Spec placementSpec = new PlacementSpec(placement, false);
+        return getRealEstatesBySpec(placementSpec);
     }
 
-    private List<RealEstate> getRealEstates(Spec placementSpec, boolean isAvoiding) {
-        List<RealEstate> foundRealEstates;
-        if (isAvoiding) {
-            foundRealEstates = repository.stream().filter(estate -> !placementSpec.check(estate)).collect(Collectors.toList());
-        } else {
-            foundRealEstates = repository.stream().filter(placementSpec::check).collect(Collectors.toList());
-        }
-        return foundRealEstates;
+    private List<RealEstate> getRealEstatesBySpec(Spec spec) {
+        return repository.stream().filter(spec::check).collect(Collectors.toList());
     }
 
     public List<RealEstate> byAvoidingPlacement(EstatePlacement placement) {
-        Spec placementSpec = new PlacementSpec(placement);
-        return getRealEstates(placementSpec, true);
+        Spec placementSpec = new PlacementSpec(placement, true);
+        return getRealEstatesBySpec(placementSpec);
     }
 
     public List<RealEstate> byAreaRange(float minArea, float maxArea) {
@@ -70,18 +63,14 @@ public class RealEstateFinder {
 
     public List<RealEstate> byType(EstateType type) {
         Spec typeSpec = new TypeSpec(type);
-        List<RealEstate> foundRealEstates = new ArrayList<>();
+        List<RealEstate> foundRealEstates = repository.stream().filter(typeSpec::check).collect(Collectors.toList());
 
-        for (RealEstate estate : repository) {
-            if (typeSpec.check(estate))
-                foundRealEstates.add(estate);
-        }
         return foundRealEstates;
     }
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material) {
         Spec typeSpec = new TypeSpec(type);
-        Spec placementSpec = new PlacementSpec(placement);
+        Spec placementSpec = new PlacementSpec(placement, shouldAvoid);
 
         List<RealEstate> foundRealEstates = new ArrayList<>();
         MaterialSpec materialSpec = new MaterialSpec(material);
