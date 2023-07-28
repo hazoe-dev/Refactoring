@@ -1,6 +1,10 @@
-package pl.refactoring.interpreter.legacy;
+package pl.refactoring.interpreter.legacy.spec;
 
-public class PlacementSpec extends SpecDecorator{
+import pl.refactoring.interpreter.legacy.EstatePlacement;
+import pl.refactoring.interpreter.legacy.RealEstate;
+import pl.refactoring.interpreter.legacy.SpecDecorator;
+
+public class PlacementSpec extends SpecDecorator {
     private EstatePlacement placement;
     private boolean shouldAvoid;
     public PlacementSpec( EstatePlacement placement, boolean shouldAvoid) {

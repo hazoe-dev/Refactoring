@@ -1,5 +1,8 @@
 package pl.refactoring.interpreter.legacy;
 
+import pl.refactoring.interpreter.legacy.spec.BasicSpec;
+import pl.refactoring.interpreter.legacy.spec.Spec;
+
 public class SpecDecorator implements Spec {
     Spec wrappee;
 

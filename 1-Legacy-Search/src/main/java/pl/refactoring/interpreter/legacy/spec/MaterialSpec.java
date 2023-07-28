@@ -1,10 +1,14 @@
-package pl.refactoring.interpreter.legacy;
+package pl.refactoring.interpreter.legacy.spec;
+
+import pl.refactoring.interpreter.legacy.EstateMaterial;
+import pl.refactoring.interpreter.legacy.RealEstate;
+import pl.refactoring.interpreter.legacy.SpecDecorator;
 
 public class MaterialSpec extends SpecDecorator {
 
     private EstateMaterial material;
 
-    public MaterialSpec(Spec spec,EstateMaterial material) {
+    public MaterialSpec(Spec spec, EstateMaterial material) {
         super(spec);
         this.material = material;
     }
