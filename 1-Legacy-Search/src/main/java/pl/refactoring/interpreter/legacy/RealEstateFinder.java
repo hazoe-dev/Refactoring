@@ -17,7 +17,7 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byBelowArea(float maxBuildingArea) {
-        Spec spec = new BelowAreaSpec( maxBuildingArea);
+        Spec spec = new BelowAreaSpec(maxBuildingArea);
         return bySpec(spec);
     }
 
@@ -29,33 +29,33 @@ public class RealEstateFinder {
 
 
     public List<RealEstate> byMaterial(EstateMaterial material) {
-        MaterialSpec materialSpec = new MaterialSpec( material);
+        MaterialSpec materialSpec = new MaterialSpec(material);
         return bySpec(materialSpec);
     }
 
     public List<RealEstate> byMaterialBelowArea(EstateMaterial material, float maxBuildingArea) {
-        Spec combinedSpec = new MaterialSpec(new BelowAreaSpec(maxBuildingArea),material);
+        Spec combinedSpec = new MaterialSpec(new BelowAreaSpec(maxBuildingArea), material);
         return bySpec(combinedSpec);
     }
 
     public List<RealEstate> byPlacement(EstatePlacement placement) {
-        List<RealEstate> foundRealEstates = new ArrayList<>();
         Spec placementSpec = new PlacementSpec(placement);
-        for (RealEstate estate : repository) {
-            if (placementSpec.check(estate))
-                foundRealEstates.add(estate);
+        return getRealEstates(placementSpec, false);
+    }
+
+    private List<RealEstate> getRealEstates(Spec placementSpec, boolean isAvoiding) {
+        List<RealEstate> foundRealEstates;
+        if (isAvoiding) {
+            foundRealEstates = repository.stream().filter(estate -> !placementSpec.check(estate)).collect(Collectors.toList());
+        } else {
+            foundRealEstates = repository.stream().filter(placementSpec::check).collect(Collectors.toList());
         }
         return foundRealEstates;
     }
 
     public List<RealEstate> byAvoidingPlacement(EstatePlacement placement) {
-        List<RealEstate> foundRealEstates = new ArrayList<>();
         Spec placementSpec = new PlacementSpec(placement);
-        for (RealEstate estate : repository) {
-            if (!placementSpec.check(estate))
-                foundRealEstates.add(estate);
-        }
-        return foundRealEstates;
+        return getRealEstates(placementSpec, true);
     }
 
     public List<RealEstate> byAreaRange(float minArea, float maxArea) {
@@ -91,8 +91,6 @@ public class RealEstateFinder {
         }
         return foundRealEstates;
     }
-
-
 
 
 }
