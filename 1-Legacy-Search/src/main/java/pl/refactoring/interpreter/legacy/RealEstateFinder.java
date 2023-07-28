@@ -68,14 +68,15 @@ public class RealEstateFinder {
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material) {
         Spec typeSpec = new TypeSpec(type);
-        Spec placementSpec = new PlacementSpec(placement, shouldAvoid);
+        Spec placementSpec = new PlacementSpec(placement, false);
 
-        List<RealEstate> foundRealEstates = new ArrayList<>();
+        List<RealEstate> foundRealEstates;
         MaterialSpec materialSpec = new MaterialSpec(material);
-        for (RealEstate estate : repository) {
-            if (typeSpec.check(estate) && placementSpec.check(estate) && materialSpec.check(estate))
-                foundRealEstates.add(estate);
-        }
+
+        foundRealEstates = repository.stream()
+                .filter(typeSpec::check).
+                filter(placementSpec::check).
+                filter(materialSpec::check).collect(Collectors.toList());
         return foundRealEstates;
     }
 
