@@ -41,16 +41,12 @@ public class RealEstateFinder {
 
     public List<RealEstate> byPlacement(EstatePlacement placement) {
         Spec placementSpec = new PlacementSpec(placement, false);
-        return getRealEstatesBySpec(placementSpec);
-    }
-
-    private List<RealEstate> getRealEstatesBySpec(Spec spec) {
-        return repository.stream().filter(spec::check).collect(Collectors.toList());
+        return bySpec(placementSpec);
     }
 
     public List<RealEstate> byAvoidingPlacement(EstatePlacement placement) {
         Spec placementSpec = new PlacementSpec(placement, true);
-        return getRealEstatesBySpec(placementSpec);
+        return bySpec(placementSpec);
     }
 
     public List<RealEstate> byAreaRange(float minArea, float maxArea) {
@@ -65,7 +61,7 @@ public class RealEstateFinder {
 
     public List<RealEstate> byType(EstateType type) {
         Spec typeSpec = new TypeSpec(type);
-        return getRealEstatesBySpec(typeSpec);
+        return bySpec(typeSpec);
     }
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material) {
